@@ -1,6 +1,7 @@
 //import modules
 var express = require("express");
 var mongoose = require("mongoose");
+const { MongoClient } = require('mongodb');
 var bodyparser = require("body-parser")
 var cors = require('cors');
 var path = require('path');
@@ -10,10 +11,27 @@ app.use(cors());
 app.use(express.json());
 //import route file
 const route = require('./routes/route');
-//connect to mongodb
-mongoose.connect('mongodb://localhost:27017/contactlist');
 
-mongoose.connection.on('connected',()=>{
+
+const uri = "mongodb+srv://saadeldeen:1230@cluster0.2pjhc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const connectionParams={
+    useNewUrlParser: true,
+    useUnifiedTopology: true 
+}
+mongoose.connect(uri,connectionParams)
+    .then( () => {
+        console.log('Connected to database ')
+    })
+    .catch( (err) => {
+        console.error(`Error connecting to the database. \n${err}`);
+    })
+
+
+
+//connect to mongodb
+//mongoose.connect('mongodb://localhost:27017/contactlist');
+
+/*mongoose.connection.on('connected',()=>{
     console.log('Connected to database mongodb @ 27017');
     console.log(mongoose.Types.ObjectId('4edd40c86762e0fb12000003').valueOf());  
 
@@ -22,7 +40,7 @@ mongoose.connection.on('connected',()=>{
 mongoose.connection.on('error',(err)=>{
     console.log('Connected not to database mongodb ' + err);
 })
-
+*/
 
 
 
